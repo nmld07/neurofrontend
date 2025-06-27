@@ -681,10 +681,13 @@
         // --- Логика переключения вкладок ---
         function openTab(tabId, clickedElement) {
             // Скрыть все вкладки
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.style.display = "none"; // Скрываем все
-                tab.classList.remove('active'); // Удаляем активный класс
-            });
+            const tabContents = document.querySelectorAll('.tab-content');
+            // ИСПРАВЛЕНО: Используем классический цикл for вместо forEach
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = "none"; // Скрываем все
+                tabContents[i].classList.remove('active'); // Удаляем активный класс
+            }
+
             // Удалить активный класс со всех навигационных ссылок
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
