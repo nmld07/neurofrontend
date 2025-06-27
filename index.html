@@ -5,90 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroFrontend | Современная веб-разработка</title>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-        // import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        // ВАШ_КОД_КОНФИГУРАЦИИ_FIREBASE (вставьте сюда то, что скопировали из консоли Firebase)
-        const firebaseConfig = {
-            apiKey: "AIzaSyDSMoFBtQoJkakJZ6PvGRy8l7KwPv7YwG8",
-            authDomain: "neurofrontend-c997c.firebaseapp.com",
-            projectId: "neurofrontend-c997c",
-            storageBucket: "neurofrontend-c997c.firebasestorage.app",
-            messagingSenderId: "385959977774",
-            appId: "1:385959977774:web:917b87f16731461f9150bf",
-            measurementId: "G-32DWH4MTW8"
-        };
 
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app); // Инициализируем аутентификацию
-        // Теперь переменная 'auth' доступна для использования в других скриптах
-        // (если они подключены как type="module" или после этого блока)
-        const googleProvider = new GoogleAuthProvider();
-        // const db = getFirestore(app); // Если используешь Firestore
-        // Чтобы 'auth' был доступен глобально для других скриптов,
-        // можно прикрепить его к объекту window
-        window.firebaseAuth = auth;
-        // Функция для обновления состояния UI (кнопок входа/выхода)
-        function updateUI(user) {
-            const signInButton = document.getElementById('signInButton');
-            const userCabinetButton = document.getElementById('userCabinetButton');
-            const signOutButton = document.getElementById('signOutButton');
-            const userNameDisplay = document.getElementById('userNameDisplay');
-
-            if (user) {
-                // Пользователь вошел
-                if (signInButton) signInButton.style.display = 'none';
-                if (userCabinetButton) userCabinetButton.style.display = 'inline-block';
-                if (signOutButton) signOutButton.style.display = 'inline-block';
-                if (userNameDisplay) {
-                    userNameDisplay.style.display = 'inline-block';
-                    userNameDisplay.textContent = 'Привет, ${ user.displayName || user.email } !';
-                }
-            } else {
-                // Пользователь вышел
-                if (signInButton) signInButton.style.display = 'inline-block';
-                if (userCabinetButton) userCabinetButton.style.display = 'none';
-                if (signOutButton) signOutButton.style.display = 'none';
-                if (userNameDisplay) {
-                    userNameDisplay.style.display = 'none';
-                    userNameDisplay.textContent = '';
-                }
-            }
-        }
-        // Функция для обновления состояния UI (кнопок входа/выхода)
-        function updateUI(user) {
-            const signInButton = document.getElementById('signInButton');
-            const userCabinetButton = document.getElementById('userCabinetButton');
-            const signOutButton = document.getElementById('signOutButton');
-            const userNameDisplay = document.getElementById('userNameDisplay');
-
-            if (user) {
-                // Пользователь вошел
-                if (signInButton) signInButton.style.display = 'none';
-                if (userCabinetButton) userCabinetButton.style.display = 'inline-block';
-                if (signOutButton) signOutButton.style.display = 'inline-block';
-                if (userNameDisplay) {
-                    userNameDisplay.style.display = 'inline-block';
-                    userNameDisplay.textContent = 'Привет, ${ user.displayName || user.email } !';
-                }
-            } else {
-                // Пользователь вышел
-                if (signInButton) signInButton.style.display = 'inline-block';
-                if (userCabinetButton) userCabinetButton.style.display = 'none';
-                if (signOutButton) signOutButton.style.display = 'none';
-                if (userNameDisplay) {
-                    userNameDisplay.style.display = 'none';
-                    userNameDisplay.textContent = '';
-                }
-            }
-        }
-    </script>
 
     <style>
         :root {
@@ -652,14 +569,73 @@
             <p>Ваш проект будет следующим!</p>
         </div>
     </footer>
-    <script>
-        // Игровая логика
+
+    <script type="module">
+        // --- Импорты Firebase SDK ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        // Если ты планируешь использовать Firestore (для формы контактов, например), раскомментируй:
+        // import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- ТВОЯ КОНФИГУРАЦИЯ FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSMoFBtQoJkakJZ6PvGRy8l7KwPv7YwG8",
+            authDomain: "neurofrontend-c997c.firebaseapp.com",
+            projectId: "neurofrontend-c997c",
+            storageBucket: "neurofrontend-c997c.firebasestorage.app",
+            messagingSenderId: "385959977774",
+            appId: "1:385959977774:web:917b87f16731461f9150bf",
+            measurementId: "G-32DWH4MTW8" // Если есть
+        };
+
+        // --- Инициализация Firebase ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+        // const db = getFirestore(app); // Если используешь Firestore
+
+        // --- Функция для обновления UI кнопок входа/выхода (Firebase) ---
+        function updateUI(user) {
+            const signInButton = document.getElementById('signInButton');
+            const userCabinetButton = document.getElementById('userCabinetButton');
+            const signOutButton = document.getElementById('signOutButton');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+
+            if (user) {
+                // Пользователь вошел
+                if (signInButton) signInButton.style.display = 'none';
+                if (userCabinetButton) userCabinetButton.style.display = 'inline-block';
+                if (signOutButton) signOutButton.style.display = 'inline-block';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'inline-block';
+                    userNameDisplay.textContent = 'Привет, ${ user.displayName || user.email } !';
+                }
+            } else {
+                // Пользователь вышел
+                if (signInButton) signInButton.style.display = 'inline-block';
+                if (userCabinetButton) userCabinetButton.style.display = 'none';
+                if (signOutButton) signOutButton.style.display = 'none';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'none';
+                    userNameDisplay.textContent = '';
+                }
+            }
+        }
+
+        // --- Игровая логика "Угадай число" ---
         let randomNumber = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
 
         function checkGuess() {
             const guessInput = document.getElementById('guessInput');
             const gameMessage = document.getElementById('gameMessage');
+
+            // Проверка на существование элементов
+            if (!guessInput || !gameMessage) {
+                console.error("Элементы игры (guessInput или gameMessage) не найдены.");
+                return;
+            }
+
             const userGuess = parseInt(guessInput.value);
 
             if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
@@ -671,11 +647,10 @@
             attempts++;
 
             if (userGuess === randomNumber) {
-                gameMessage.textContent = "Поздравляю! Вы угадали число " + randomNumber + " за " + attempts + " попыток!";
+                gameMessage.textContent = 'Поздравляю! Вы угадали число ${ randomNumber } за ${ attempts } попыток!';
                 gameMessage.className = 'game-message correct';
                 guessInput.disabled = true;
-            }
-            else if (userGuess < randomNumber) {
+            } else if (userGuess < randomNumber) {
                 gameMessage.textContent = 'Загаданное число больше. Попробуйте еще раз!';
                 gameMessage.className = 'game-message incorrect';
             } else {
@@ -689,32 +664,44 @@
         function resetGame() {
             randomNumber = Math.floor(Math.random() * 100) + 1;
             attempts = 0;
-            document.getElementById('guessInput').value = '';
-            document.getElementById('guessInput').disabled = false;
-            document.getElementById('gameMessage').textContent = '';
-            document.getElementById('gameMessage').className = 'game-message';
+            const guessInput = document.getElementById('guessInput');
+            const gameMessage = document.getElementById('gameMessage');
+
+            if (guessInput) {
+                guessInput.value = '';
+                guessInput.disabled = false;
+            }
+            if (gameMessage) {
+                gameMessage.textContent = '';
+                gameMessage.className = 'game-message';
+            }
+            if (guessInput) guessInput.focus();
         }
 
-        // Логика переключения вкладок
+        // --- Логика переключения вкладок ---
         function openTab(tabId, clickedElement) {
             // Скрыть все вкладки
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
+                tab.style.display = "none"; // Добавил display: none, как было ранее
             });
             // Удалить активный класс со всех навигационных ссылок
-            document.querySelectorAll('.nav a').forEach(link => {
+            document.querySelectorAll('.nav-link').forEach(link => { // Используем .nav-link
                 link.classList.remove('active');
             });
 
             // Показать выбранную вкладку
-            document.getElementById(tabId).classList.add('active');
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                targetTab.style.display = "block"; // Показать вкладку
+            }
             // Добавить активный класс выбранной ссылке
             if (clickedElement) {
                 clickedElement.classList.add('active');
             }
 
             // Обновить URL без перезагрузки страницы
-            // Используем прямые кавычки
             history.pushState(null, null, '#' + tabId);
 
             // Если открывается вкладка "Игра", сбросить игру
@@ -723,40 +710,121 @@
             }
         }
 
-        // При загрузке страницы проверяем хэш в URL и инициализируем вкладки
-        window.onload = function () {
+
+        // --- Весь основной код сайта и слушатели событий (DOMContentLoaded) ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Получаем ссылки на элементы DOM ---
+            const signInButton = document.getElementById('signInButton');
+            const signOutButton = document.getElementById('signOutButton');
+            const userCabinetButton = document.getElementById('userCabinetButton');
+            const guessInput = document.getElementById('guessInput'); // Переносим сюда, чтобы был доступен
+            const guessButton = document.getElementById('guessButton');
+            const resetButton = document.getElementById('resetButton');
+
+
+            // --- ОБРАБОТЧИКИ СОБЫТИЙ ДЛЯ FIREBASE AUTHENTICATION ---
+
+            // Обработчик для кнопки "Войти через Google"
+            if (signInButton) {
+                signInButton.addEventListener('click', () => {
+                    signInWithPopup(auth, googleProvider)
+                        .then((result) => {
+                            console.log('Пользователь вошел:', result.user.displayName || result.user.email);
+                        })
+                        .catch((error) => {
+                            const errorMessage = error.message;
+                            console.error('Ошибка входа через Google:', errorMessage);
+                            alert('Ошибка входа: ${ errorMessage }');
+                        });
+                });
+            }
+            // Обработчик для кнопки "Выйти"
+            if (signOutButton) {
+                signOutButton.addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        console.log('Пользователь вышел');
+                    }).catch((error) => {
+                        console.error('Ошибка выхода:', error);
+                        alert('Ошибка выхода: ${ error.message }');
+                    });
+                });
+            }
+
+            // Обработчик для кнопки "Личный кабинет" (пока заглушка)
+            if (userCabinetButton) {
+                userCabinetButton.addEventListener('click', () => {
+                    alert('Скоро здесь будет ваш личный кабинет!');
+                });
+            }
+
+            // --- Отслеживание состояния аутентификации (важно!) ---
+            onAuthStateChanged(auth, (user) => {
+                updateUI(user);
+                if (user) {
+                    console.log("Пользователь вошел:", user.uid, user.email, user.displayName);
+                } else {
+                    console.log("Пользователь не вошел.");
+                }
+            });
+
+            // --- ОБРАБОТЧИКИ СОБЫТИЙ ДЛЯ ИГРЫ "УГАДАЙ ЧИСЛО" ---
+
+            if (guessButton) {
+                guessButton.addEventListener('click', checkGuess);
+            }
+            if (resetButton) {
+                resetButton.addEventListener('click', resetGame);
+            }
+            if (guessInput) {
+                guessInput.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        checkGuess();
+                    }
+                });
+            }
+
+            // --- ОБРАБОТЧИКИ СОБЫТИЙ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК И ССЫЛОК ---
+
+            // Обработчики для навигационных ссылок (вкладок)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Предотвращаем стандартный переход по ссылке
+                    const tabId = this.getAttribute('href').substring(1); // Получаем ID вкладки из href
+                    openTab(tabId, this); // Вызываем функцию переключения вкладки
+                });
+            });
+
+
+            // Открываем первую вкладку по умолчанию при загрузке страницы (или ту, что в URL)
             const initialTabId = window.location.hash ? window.location.hash.substring(1) : 'services';
-            // Изменено: используем querySelector с прямыми кавычками и ищем по href
-            const targetLink = document.querySelector('.nav a[href="#' + initialTabId + '"]');
             if (document.getElementById(initialTabId) && targetLink) {
                 openTab(initialTabId, targetLink);
             } else {
-                // Если хеш некорректен, открываем "Услуги" по умолчанию
-                openTab('services', document.querySelector('.nav a[href="#services"]'));
+                openTab('services', document.querySelector('.nav-link[href="#services"]'));
             }
-        };
 
-        // Анимация для кнопок проектов (добавлена общая для .project-card)
-        document.querySelectorAll('.project-link').forEach(link => {
-            link.addEventListener('mouseover', function () {
-                // Анимация теперь управляется CSS-классом hover
+
+            // Добавляем обработчики для ссылок проектов (если они у тебя есть)
+            document.querySelectorAll('.project-link').forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    alert('Это будет ссылка на ваш проект!');
+                });
             });
-            link.addEventListener('mouseout', function () {
-                // Анимация теперь управляется CSS-классом hover
-            });
-        });
-        // Добавляем обработчик события для поля ввода, чтобы Enter срабатывал как клик по кнопке
-        const guessInput = document.getElementById('guessInput'); // Получаем ссылку на поле ввода, если еще не получили
-        guessInput.addEventListener('keydown', function (event) {
-            // Проверяем, была ли нажата клавиша Enter (код 13)
-            if (event.key === 'Enter') {
-                // Отменяем стандартное действие Enter (например, отправку формы, если она есть)
-                event.preventDefault();
-                // Вызываем функцию проверки числа
-                checkGuess();
+
+            // Добавляем обработчик для кнопки "Отправить сообщение" в контактах
+            const contactForm = document.querySelector('.contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Предотвращаем стандартную отправку формы
+                    alert('Сообщение отправлено! (На самом деле нет, это пока заглушка)');
+                    contactForm.reset(); // Очищаем форму
+                });
             }
-        });
 
+        }); // Конец document.addEventListener('DOMContentLoaded', ...
     </script>
 </body>
 
