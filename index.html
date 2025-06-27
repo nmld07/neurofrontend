@@ -5,6 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroFrontend | Современная веб-разработка</title>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // ВАШ_КОД_КОНФИГУРАЦИИ_FIREBASE (вставьте сюда то, что скопировали из консоли Firebase)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSMoFBtQoJkakJZ6PvGRy8l7KwPv7YwG8",
+            authDomain: "neurofrontend-c997c.firebaseapp.com",
+            projectId: "neurofrontend-c997c",
+            storageBucket: "neurofrontend-c997c.firebasestorage.app",
+            messagingSenderId: "385959977774",
+            appId: "1:385959977774:web:917b87f16731461f9150bf",
+            measurementId: "G-32DWH4MTW8"
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Инициализируем аутентификацию
+        // Теперь переменная 'auth' доступна для использования в других скриптах
+        // (если они подключены как type="module" или после этого блока)
+
+        // Чтобы 'auth' был доступен глобально для других скриптов,
+        // можно прикрепить его к объекту window
+        window.firebaseAuth = auth;
+
+    </script>
+
     <style>
         :root {
             --primary: #5366ff;
@@ -358,6 +389,7 @@
             }
         }
     </style>
+
 </head>
 
 <body>
