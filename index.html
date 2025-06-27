@@ -799,12 +799,12 @@
 
             // Открываем первую вкладку по умолчанию при загрузке страницы (или ту, что в URL)
             const initialTabId = window.location.hash ? window.location.hash.substring(1) : 'services';
+            const targetLink = document.querySelector(`.nav-link[href="#${initialTabId}"]`);
             if (document.getElementById(initialTabId) && targetLink) {
                 openTab(initialTabId, targetLink);
             } else {
                 openTab('services', document.querySelector('.nav-link[href="#services"]'));
             }
-
 
             // Добавляем обработчики для ссылок проектов (если они у тебя есть)
             document.querySelectorAll('.project-link').forEach(link => {
