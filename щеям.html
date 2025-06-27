@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Баня Да! | Отзывы</title>
+    <style>
+        :root {
+            --primary: #3A2E26;
+            --accent: #E8A87C;
+            --background: linear-gradient(45deg, #f5efe6 0%, #e7dfd5 100%);
+        }
+
+        .reviews-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        .review-card {
+            background: #fffaf6;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .rating-stars {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin: 0.5rem 0;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .review-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <h1>БАНЯ ДА!</h1>
+        </header>
+
+        <div class="reviews-section">
+            <h2>🌟 Отзывы наших гостей</h2>
+            
+            <!-- Отзыв 1 -->
+            <div class="review-card">
+                <div class="quote-icon">❝</div>
+                <div class="review-meta">
+                    <img src="user1.jpg" alt="Алексей" class="user-avatar">
+                    <div>
+                        <h3>Алексей 🧖♂️</h3>
+                        <div class="rating-stars">
+                            ⭐⭐⭐⭐⭐ (5/5)
+                        </div>
+                        <small>12 марта 2024</small>
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>Лучший отдых за последние годы! VIP-комплекс просто космос 🚀. Персональный банщик — профессионал, 
+                    а после бани ужин от шеф-повара — пальчики оближешь! Обязательно вернемся с друзьями.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв 2 -->
+            <div class="review-card">
+                <div class="quote-icon">❝</div>
+                <div class="review-meta">
+                    <img src="user2.jpg" alt="Ольга" class="user-avatar">
+                    <div>
+                        <h3>Ольга 👩👧👦</h3>
+                        <div class="rating-stars">
+                            ⭐⭐⭐⭐ (4/5)
+                        </div>
+                        <small>5 марта 2024</small>
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>Отлично провели время с детьми в семейном комплексе! 🎠 Детский бассейн и игровая зона — 
+                    спасение для родителей. Единственное — хотелось бы больше вариантов детского меню.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв 3 -->
+            <div class="review-card">
+                <div class="quote-icon">❝</div>
+                <div class="review-meta">
+                    <img src="user3.jpg" alt="Дмитрий" class="user-avatar">
+                    <div>
+<h3>Дмитрий 🎮</h3>
+                        <div class="rating-stars">
+                            ⭐⭐⭐⭐⭐ (5/5)
+                        </div>
+                        <small>28 февраля 2024</small>
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>Крутой комплекс "Две бани и дом"! После парной играли в PS5, караоке до утра 🎤, 
+                    а повар готовил как в ресторане! Как будто побывал на курорте, не выезжая из города.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Анимация отзывов
+        const reviews = document.querySelectorAll('.review-card');
+        reviews.forEach((review, index) => {
+            review.style.opacity = '0';
+            review.style.transform = 'translateX(-50px)';
+            setTimeout(() => {
+                review.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                review.style.opacity = '1';
+                review.style.transform = 'translateX(0)';
+            }, 300 * index);
+        });
+    </script>
+</body>
+</html>

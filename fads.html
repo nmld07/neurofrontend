@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Баня Да! | Магазин и доставка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3A2E26;
+            --accent: #E8A87C;
+            --background: linear-gradient(45deg, #f5efe6 0%, #e7dfd5 100%);
+        }
+
+        body {
+            background: var(--background);
+            font-family: 'Manrope', sans-serif;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-family: 'Unbounded', cursive;
+            font-size: 2.8rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(58,46,38,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .price-tag {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .food-section {
+            border-left: 4px solid var(--accent);
+            padding-left: 2rem;
+            margin: 3rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍴 Магазин и доставка</h1>
+
+        <!-- Раздел еды -->
+        <div class="food-section">
+            <h2>🥐 Питание</h2>
+            <div class="category-grid">
+                <div class="product-card">
+                    <div class="product-icon">🥗</div>
+                    <h3>Легкий завтрак</h3>
+                    <p>Свежие фрукты, йогурт, гранола</p>
+                    <div class="price-tag">
+                        🧑🤝🧑 На двоих: 290 руб<br>
+                        👨👩👧👦 На четверых: 599 руб
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🍳</div>
+                    <h3>Плотный завтрак</h3>
+                    <p>Яичница, бекон, тосты, овощи</p>
+                    <div class="price-tag">
+                        🧑🤝🧑 На двоих: 470 руб<br>
+                        👨👩👧👦 На четверых: 959 руб
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🍲</div>
+                    <h3>Обед</h3>
+                    <p>Суп, салат, горячее блюдо</p>
+                    <div class="price-tag">
+                        🧑🤝🧑 На двоих: 650 руб<br>
+                        👨👩👧👦 На четверых: 1250 руб
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Раздел принадлежностей -->
+        <div class="food-section">
+            <h2>🛁 Банные принадлежности</h2>
+            <div class="category-grid">
+                <div class="product-card">
+                    <div class="product-icon">🌿</div>
+                    <h3>Веники</h3>
+                    <ul>
+                        <li>Березовый - 349 руб</li>
+                        <li>Сосновый - 289 руб</li>
+                        <li>Пихтовый - 389 руб</li>
+                        <li>Дубовый - 429 руб (новинка!)</li>
+                    </ul>
+                </div>
+<div class="product-card">
+                    <div class="product-icon">🫙</div>
+                    <h3>Аромамасла</h3>
+                    <ul>
+                        <li>Для камней (250мл) - 149 руб</li>
+                        <li>Эвкалиптовое - 199 руб</li>
+                        <li>Можжевеловое - 219 руб</li>
+                    </ul>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🧖</div>
+                    <h3>Аксессуары</h3>
+                    <ul>
+                        <li>Шапочка для бани - 189 руб</li>
+                        <li>Набор чайников - 899 руб</li>
+                        <li>Дубовый ковш - 459 руб</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Анимация карточек при прокрутке
+        const cards = document.querySelectorAll('.product-card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        cards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

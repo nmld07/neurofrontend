@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroFrontend | Современная веб-разработка</title>
+    <style>
+        :root {
+            --primary: #5366ff;
+            --dark: #161b33;
+            --light: #f8f9fa;
+            --accent: #8867ff;
+            --gold: #ffd759;
+            --red: #ff4757;
+            --green: #2ed573;
+            --teal: #34e7e4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), #18293b);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.7);
+            padding: 15px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(83, 102, 255, 0.5);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+            flex-grow: 1;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.7s ease-out;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2,
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .services-grid,
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .service-card,
+        .project-card {
+            background: rgba(46, 52, 64, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-card:hover,
+        .project-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .service-title span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--light);
+        }
+
+        .price-tag {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-new {
+            background: var(--green);
+            color: var(--dark);
+        }
+
+        .badge-soon {
+            background: var(--red);
+            color: white;
+        }
+
+        .features {
+            margin-top: 15px;
+            padding-left: 25px;
+            list-style: disc;
+        }
+
+        .features li {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .project-card p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .project-link:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .highlight {
+            color: var(--teal);
+            font-weight: bold;
+        }
+
+        .signature {
+            display: block;
+            margin-top: 25px;
+            font-style: italic;
+            color: var(--gold);
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        /* Game specific styles */
+        .game-area {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .game-area input[type="number"] {
+            padding: 10px;
+            width: 150px;
+            border-radius: 5px;
+            border: 1px solid var(--primary);
+            background-color: var(--dark);
+            color: var(--light);
+            font-size: 1.1rem;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .game-area button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+
+        .game-area button:hover {
+            background: var(--accent);
+        }
+
+        .game-message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .game-message.correct {
+            color: var(--green);
+        }
+
+        .game-message.incorrect {
+            color: var(--red);
+        }
+
+        /* Blog specific styles */
+        .blog-post h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .blog-post p {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .blog-post ul {
+            list-style: disc;
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .blog-post li {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                padding: 10px 0;
+            }
+
+            .nav a {
+                margin: 5px auto;
+                width: 80%;
+                text-align: center;
+            }
+
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .price-tag {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>NeuroFrontend</h1>
+            <p>Современная веб-разработка с душой</p>
+        </div>
+    </header>
+
+    <div class="nav">
+        <a href="#services" onclick="openTab('services', this)">Услуги</a>
+        <a href="#projects" onclick="openTab('projects', this)">Проекты</a>
+        <a href="#game" onclick="openTab('game', this)">Игра</a>
+        <a href="#blog" onclick="openTab('blog', this)">Блог</a>
+        <a href="#contact" onclick="openTab('contact', this)">Контакты</a>
+    </div>
+
+    <div class="container">
+        <div id="services" class="tab-content">
+            <div class="card">
+                <h2>Мои услуги</h2>
+                <div class="services-grid">
+                    <div class="service-card" title="Proto NeuroVisit - Идеальный сайт-визитка">
+                        <div class="service-title">
+                            <span>Proto NeuroVisit</span>
+                            <div class="price-tag">
+                                <span class="price">7 000 - 12 000 ₽</span>
+                                <span class="badge badge-new">Новинка</span>
+                            </div>
+                        </div>
+                        <p class="service-description">Идеальный сайт-визитка для специалистов и малого бизнеса. Быстро,
+                            качественно, по доступной цене.</p>
+                        <ul class="features">
+                            <li>1 страница с адаптивным дизайном</li>
+                            <li>SEO-оптимизация базового уровня</li>
+                            <li>Контактная форма с уведомлением</li>
+                            <li>Интеграция с соцсетями</li>
+                            <li>Хостинг на 1 год в подарок</li>
+                            <li>Срок выполнения: 3-5 дней</li>
+                            <li>Оптимизированная производительность</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card" title="AI аналитика - Поведение пользователей">
+                        <div class="service-title">
+                            <span>AI аналитика</span>
+                            <div class="price-tag">
+                                <span class="price">8 000 - 18 000 ₽</span>
+                            </div>
+                        </div>
+                        <p class="service-description">Внедрение AI-аналитики поведения пользователей на сайт.</p>
+                        <ul class="features">
+                            <li>Тепловые карты</li>
+                            <li>Прогнозирование конверсии</li>
+                            <li>Персонализированные предложения</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card" title="Firebase NeuroConnect - Интеграция с AI-функционалом">
+                        <div class="service-title">
+                            <span>Firebase NeuroConnect</span>
+                            <div class="price-tag">
+                                <span class="price">9 000 - 20 000 ₽</span>
+                            </div>
+                        </div>
+                        <p class="service-description">Полная интеграция Firebase с AI-функционалом.</p>
+                        <ul class="features">
+                            <li>База данных Realtime</li>
+                            <li>AI-аутентификация</li>
+                            <li>Хостинг + Cloud Functions</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card" title="NeuroSupport - Полная поддержка и оптимизация">
+                        <div class="service-title">
+                            <span>NeuroSupport</span>
+                            <div class="price-tag">
+                                <span class="price">7 000 ₽/мес</span>
+                                <span class="badge badge-soon">Скоро</span>
+                            </div>
+                        </div>
+                        <p class="service-description">Полная поддержка с AI-мониторингом и оптимизацией.</p>
+                        <ul class="features">
+                            <li>Круглосуточный мониторинг</li>
+                            <li>AI-оптимизация скорости</li>
+                            <li>Резервные копии</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="projects" class="tab-content">
+            <div class="card">
+                <h2>Мои проекты</h2>
+                <p>Примеры реализованных проектов:</p>
+                <div class="projects-grid">
+                    <div class="project-card" title="Сайт для базы отдыха с банями">
+                        <h3>Сайт для базы отдыха с банями</h3>
+                        <p>Современный сайт для бронирования и информации о базе отдыха.</p>
+                        <a href="https://github.com/yourname/sauna-base-site" class="project-link"
+                            target="_blank">Код</a>
+                        <a href="/demo/sauna-base/index.html" class="project-link" target="_blank">Демо</a>
+                    </div>
+                    <div class="project-card" title="Интернет-магазин одежды">
+                        <h3>Интернет-магазин</h3>
+                        <p>Магазин одежды с функциональной корзиной покупок и каталогом.</p>
+                        <a href="https://github.com/yourname/clothing-store" class="project-link"
+                            target="_blank">Код</a>
+                        <a href="/demo/clothing-store/index.html" class="project-link" target="_blank">Демо</a>
+                    </div>
+                    <div class="project-card" title="Портфолио фотографа с галереей">
+                        <h3>Портфолио фотографа</h3>
+                        <p>Галерея с возможностью фильтрации работ и контактной формой.</p>
+                        <a href="https://github.com/yourname/photographer-portfolio" class="project-link"
+                            target="_blank">Код</a>
+                        <a href="/demo/photo-portfolio/index.html" class="project-link" target="_blank">Демо</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game" class="tab-content">
+            <div class="card">
+                <h2>Игра: Угадай число!</h2>
+                <p>Представьте, что нейросеть задумала число от 1 до 100. Ваша задача — угадать его за минимальное
+                    количество попыток.</p>
+                <p>Эта игра показывает, как <span class="highlight">ИИ (компьютер) может быть помощником</span>, давая
+                    подсказки, а <span class="highlight">человек использует логику и интуицию</span>, чтобы найти
+                    решение.</p>
+                <div class="game-area">
+                    <input type="number" id="guessInput" min="1" max="100" placeholder="Ваше число">
+                    <button onclick="checkGuess()">Угадать!</button>
+                    <p id="gameMessage" class="game-message"></p>
+                    <button onclick="resetGame()" style="margin-top: 10px;">Начать заново</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="blog" class="tab-content">
+            <div class="card blog-post">
+                <h2>Нейросети и человек: идеальное сочетание</h2>
+                <p>В эпоху стремительного развития искусственного интеллекта и нейросетей, часто возникают опасения
+                    относительно их влияния на человеческий труд и само существование. Наш философский блог призван
+                    рассеять эти мифы и показать, что нейросети — это не заменитель человека, а их мощный помощник.</p>
+
+                <h3>Сила сотрудничества: человек + нейросеть</h3>
+                <p>Этот сайт, NeuroFrontend, является ярким примером такого сотрудничества. Да, он был создан при
+                    активном участии нейросети, которая генерировала основу кода и структуры. Однако, <span
+                        class="highlight">важнейшую и решающую роль сыграл именно человек.</span></p>
+
+                <p>Нейросети, при всей своей вычислительной мощи, имеют фундаментальные ограничения:</p>
+                <ul class="features">
+                    <li>Они не чувствуют <span class="highlight">контекст</span>, как это делает человек.</li>
+                    <li>Часто допускают <span class="highlight">логические ошибки</span> и неточности в сложных задачах.
+                    </li>
+                    <li>Не понимают <span class="highlight">глубину ваших истинных потребностей</span> и не могут
+                        выйти за рамки заданных параметров.</li>
+                    <li>Им не хватает <span class="highlight">креативности, интуиции и способности к абстрактному
+                            мышлению</span> в полном объеме.</li>
+                </ul>
+
+                <h3>Роль человека: душа и смысл проекта</h3>
+                <p>В процессе создания этого сайта нейросеть <span class="highlight">сделала 7 ошибок</span> в коде и
+                    структуре, которые могли бы привести к неработоспособности или плохому пользовательскому опыту.
+                    Именно человек обнаружил и исправил эти ошибки, а также добавил то, что делает этот проект
+                    по-настоящему
+                    ценным:</p>
+                <ul class="features">
+                    <li><span class="highlight">Адаптивность</span> под мобильные устройства и различные разрешения
+                        экрана.</li>
+                    <li><span class="highlight">Корректную и безопасную работу форм</span> обратной связи.</li>
+                    <li><span class="highlight">Оптимизацию</span> для старых компьютеров и медленного интернета.</li>
+                    <li>И, конечно же, <span class="highlight">философский смысл этого блока</span> и всего проекта в
+                        целом.</li>
+                </ul>
+                <p>Нейросети — это невероятно мощные инструменты, способные автоматизировать рутинные задачи и ускорить
+                    процессы. Но <span class="highlight">только человек</span> может придать работе душу, понять ваши
+                    истинные потребности, внести творческий подход и создать продукт, который будет не просто
+                    функциональным, но и действительно решать ваши задачи, отражая уникальное видение.</p>
+                <span class="signature">Создано нейросетью, дополнено человеком с любовью и смыслом.</span>
+            </div>
+        </div>
+
+        <div id="contact" class="tab-content">
+            <div class="card">
+                <h2>Свяжитесь со мной</h2>
+                <p>Telegram: <a href="https://t.me/nmld07" target="_blank" class="highlight">@nmld07</a></p>
+                <p>Почта: <a href="mailto:neurofrontend.dev@gmail.com" class="highlight">neurofrontend.dev@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 NeuroFrontend | Создано с любовью</p>
+            <p>Ваш проект будет следующим!</p>
+        </div>
+    </footer>
+    <script>
+        // Игровая логика
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const gameMessage = document.getElementById('gameMessage');
+            const userGuess = parseInt(guessInput.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                gameMessage.textContent = 'Пожалуйста, введите число от 1 до 100.';
+                gameMessage.className = 'game-message incorrect';
+                return;
+            }
+
+            attempts++;
+
+            if (userGuess === randomNumber) {
+                gameMessage.textContent = "Поздравляю! Вы угадали число " + randomNumber + " за " + attempts + " попыток!";
+                gameMessage.className = 'game-message correct';
+                guessInput.disabled = true;
+            }
+            else if (userGuess < randomNumber) {
+                gameMessage.textContent = 'Загаданное число больше. Попробуйте еще раз!';
+                gameMessage.className = 'game-message incorrect';
+            } else {
+                gameMessage.textContent = 'Загаданное число меньше. Попробуйте еще раз!';
+                gameMessage.className = 'game-message incorrect';
+            }
+            guessInput.value = ''; // Очищаем поле ввода
+            guessInput.focus(); // Возвращаем фокус на поле ввода
+        }
+
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('guessInput').disabled = false;
+            document.getElementById('gameMessage').textContent = '';
+            document.getElementById('gameMessage').className = 'game-message';
+        }
+
+        // Логика переключения вкладок
+        function openTab(tabId, clickedElement) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Удалить активный класс со всех навигационных ссылок
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Показать выбранную вкладку
+            document.getElementById(tabId).classList.add('active');
+            // Добавить активный класс выбранной ссылке
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            }
+
+            // Обновить URL без перезагрузки страницы
+            // Используем прямые кавычки
+            history.pushState(null, null, '#' + tabId);
+
+            // Если открывается вкладка "Игра", сбросить игру
+            if (tabId === 'game') {
+                resetGame();
+            }
+        }
+
+        // При загрузке страницы проверяем хэш в URL и инициализируем вкладки
+        window.onload = function () {
+            const initialTabId = window.location.hash ? window.location.hash.substring(1) : 'services';
+            // Изменено: используем querySelector с прямыми кавычками и ищем по href
+            const targetLink = document.querySelector('.nav a[href="#' + initialTabId + '"]');
+            if (document.getElementById(initialTabId) && targetLink) {
+                openTab(initialTabId, targetLink);
+            } else {
+                // Если хеш некорректен, открываем "Услуги" по умолчанию
+                openTab('services', document.querySelector('.nav a[href="#services"]'));
+            }
+        };
+
+        // Анимация для кнопок проектов (добавлена общая для .project-card)
+        document.querySelectorAll('.project-link').forEach(link => {
+            link.addEventListener('mouseover', function () {
+                // Анимация теперь управляется CSS-классом hover
+            });
+            link.addEventListener('mouseout', function () {
+                // Анимация теперь управляется CSS-классом hover
+            });
+        });
+        // Добавляем обработчик события для поля ввода, чтобы Enter срабатывал как клик по кнопке
+        const guessInput = document.getElementById('guessInput'); // Получаем ссылку на поле ввода, если еще не получили
+        guessInput.addEventListener('keydown', function (event) {
+            // Проверяем, была ли нажата клавиша Enter (код 13)
+            if (event.key === 'Enter') {
+                // Отменяем стандартное действие Enter (например, отправку формы, если она есть)
+                event.preventDefault();
+                // Вызываем функцию проверки числа
+                checkGuess();
+            }
+        });
+
+    </script>
+</body>
+
+</html>

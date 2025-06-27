@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Баня Да! | Аренда бань</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3A2E26;
+            --accent: #E8A87C;
+            --background: linear-gradient(45deg, #f5efe6 0%, #e7dfd5 100%);
+        }
+
+        body {
+            background: var(--background);
+            font-family: 'Manrope', sans-serif;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .main-header::after {
+            content: "";
+            display: block;
+            width: 200px;
+            height: 4px;
+            background: var(--accent);
+            margin: 1rem auto;
+        }
+
+        .banya-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .banya-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(58,46,38,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .banya-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .banya-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .banya-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .booking-button {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .booking-button:hover {
+            background: #493d34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <h1>БАНЯ ДА!</h1>
+        </header>
+
+        <div class="banya-grid">
+            <!-- Русская баня -->
+            <div class="banya-card">
+                <div class="banya-badge">Хит</div>
+                <img src="banya1.jpg" alt="Русская баня" class="banya-image">
+                <h2>🏯 Русская баня</h2>
+                <p>Традиционная парная с березовыми вениками</p>
+                <ul>
+                    <li>✓ До 6 человек</li>
+                    <li>✓ Бассейн с водой</li>
+                    <li>✓ Чайная зона</li>
+                </ul>
+                <div class="price">от 2 500 руб/час</div>
+                <button class="booking-button">Забронировать</button>
+            </div>
+
+            <!-- Финская сауна -->
+            <div class="banya-card">
+                <div class="banya-badge">Новинка</div>
+                <img src="banya2.jpg" alt="Финская сауна" class="banya-image">
+                <h2>🌲 Финская сауна</h2>
+                <p>Сухой пар с ароматами хвои</p>
+                <ul>
+                    <li>✓ До 4 человек</li>
+                    <li>✓ Зона отдыха</li>
+                    <li>✓ Инфракрасная кабина</li>
+                </ul>
+                <div class="price">от 3 200 руб/час</div>
+                <button class="booking-button">Забронировать</button>
+            </div>
+<!-- VIP-комплекс -->
+            <div class="banya-card">
+                <div class="banya-badge">Премиум</div>
+                <img src="banya3.jpg" alt="VIP комплекс" class="banya-image">
+                <h2>⭐ VIP-комплекс</h2>
+                <p>Полный сервис с персональным банщиком</p>
+                <ul>
+                    <li>✓ До 10 человек</li>
+                    <li>✓ СПА-процедуры</li>
+                    <li>✓ Отдельная кухня</li>
+                </ul>
+                <div class="price">от 8 900 руб/час</div>
+                <button class="booking-button">Забронировать</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Анимация карточек
+        const cards = document.querySelectorAll('.banya-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 * index);
+        });
+
+        // Обработка бронирования
+        document.querySelectorAll('.booking-button').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Спасибо! Менеджер свяжется с вами в течение 10 минут!');
+            });
+        });
+    </script>
+</body>
+</html>
+<div class="banya-grid">
+    <!-- ... предыдущие карточки ... -->
+
+    <!-- Две бани и дом -->
+    <div class="banya-card">
+        <div class="banya-badge">Эксклюзив</div>
+        <img src="banya4.jpg" alt="Две бани и дом" class="banya-image">
+        <h2>🏡 Две бани и дом</h2>
+        <p>Элитный комплекс для больших компаний</p>
+        <ul>
+            <li>✓ До 16 человек</li>
+            <li>✓ 2 отдельные парные</li>
+            <li>👨🍳 Персональный повар (опция)</li>
+            <li>🛋️ Гостиная с камином</li>
+            <li>🎮 PlayStation 5 + 4K TV</li>
+            <li>🔊 Акустическая система</li>
+            <li>🍽️ Полноценная кухня</li>
+            <li>🛌 Спальные места</li>
+        </ul>
+        <div class="price">от 15 000 руб/час</div>
+        <button class="booking-button">Забронировать</button>
+    </div>
+
+    <!-- Дополнительная баня -->
+    <div class="banya-card">
+        <div class="banya-badge">Для семьи</div>
+        <img src="banya5.jpg" alt="Семейный комплекс" class="banya-image">
+        <h2>👨👩👧👦 Семейный комплекс</h2>
+        <p>Идеальное пространство для отдыха с детьми</p>
+        <ul>
+            <li>✓ До 8 человек</li>
+            <li>🎠 Детская игровая зона</li>
+            <li>🍳 Кухня-студня</li>
+            <li>📽️ Кинотеатр</li>
+            <li>🧖 Женская/мужская парные</li>
+            <li>🛝 Детский бассейн</li>
+        </ul>
+        <div class="price">от 6 500 руб/час</div>
+        <button class="booking-button">Забронировать</button>
+    </div>
+</div>
