@@ -608,7 +608,7 @@
                 if (signOutButton) signOutButton.style.display = 'inline-block';
                 if (userNameDisplay) {
                     userNameDisplay.style.display = 'inline-block';
-                    userNameDisplay.textContent = 'Привет, user !';
+                    userNameDisplay.textContent = 'Привет, ${user.displayName || user.email}!';
                 }
             } else {
                 // Пользователь вышел
@@ -647,7 +647,7 @@
             attempts++;
 
             if (userGuess === randomNumber) {
-                gameMessage.textContent = 'Поздравляю! Вы угадали число ${ randomNumber } за ${ attempts } попыток!';
+                gameMessage.textContent = 'Поздравляю! Вы угадали число ${randomNumber} за ${attempts} попыток!';
                 gameMessage.className = 'game-message correct';
                 guessInput.disabled = true;
             } else if (userGuess < randomNumber) {
@@ -682,19 +682,19 @@
         function openTab(tabId, clickedElement) {
             // Скрыть все вкладки
             document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-                tab.style.display = "none"; // Добавил display: none, как было ранее
+                tab.style.display = "none"; // Скрываем все
+                tab.classList.remove('active'); // Удаляем активный класс
             });
             // Удалить активный класс со всех навигационных ссылок
-            document.querySelectorAll('.nav-link').forEach(link => { // Используем .nav-link
+            document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
 
             // Показать выбранную вкладку
             const targetTab = document.getElementById(tabId);
             if (targetTab) {
-                targetTab.classList.add('active');
-                targetTab.style.display = "block"; // Показать вкладку
+                targetTab.style.display = "block"; // Показываем выбранную
+                targetTab.classList.add('active'); // Добавляем активный класс
             }
             // Добавить активный класс выбранной ссылке
             if (clickedElement) {
@@ -718,7 +718,7 @@
             const signInButton = document.getElementById('signInButton');
             const signOutButton = document.getElementById('signOutButton');
             const userCabinetButton = document.getElementById('userCabinetButton');
-            const guessInput = document.getElementById('guessInput'); // Переносим сюда, чтобы был доступен
+            const guessInput = document.getElementById('guessInput');
             const guessButton = document.getElementById('guessButton');
             const resetButton = document.getElementById('resetButton');
 
@@ -735,7 +735,7 @@
                         .catch((error) => {
                             const errorMessage = error.message;
                             console.error('Ошибка входа через Google:', errorMessage);
-                            alert('Ошибка входа: ${ errorMessage }');
+                            alert('Ошибка входа: ${errorMessage}');
                         });
                 });
             }
@@ -746,7 +746,7 @@
                         console.log('Пользователь вышел');
                     }).catch((error) => {
                         console.error('Ошибка выхода:', error);
-                        alert('Ошибка выхода: ${ error.message }');
+                        alert('Ошибка выхода: ${error.message}');
                     });
                 });
             }
@@ -797,14 +797,17 @@
             });
 
 
-            // Открываем первую вкладку по умолчанию при загрузке страницы (или ту, что в URL)
+            // Инициализация вкладок при загрузке страницы
+            // Убедимся, что открывается правильная вкладка при первом заходе
             const initialTabId = window.location.hash ? window.location.hash.substring(1) : 'services';
             const targetLink = document.querySelector(`.nav-link[href="#${initialTabId}"]`);
             if (document.getElementById(initialTabId) && targetLink) {
                 openTab(initialTabId, targetLink);
             } else {
+                // Если хеш некорректен или нет ссылки, открываем "Услуги" по умолчанию
                 openTab('services', document.querySelector('.nav-link[href="#services"]'));
             }
+
 
             // Добавляем обработчики для ссылок проектов (если они у тебя есть)
             document.querySelectorAll('.project-link').forEach(link => {
