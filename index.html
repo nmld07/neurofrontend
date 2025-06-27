@@ -11,7 +11,7 @@
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
-
+        // import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         // ВАШ_КОД_КОНФИГУРАЦИИ_FIREBASE (вставьте сюда то, что скопировали из консоли Firebase)
         const firebaseConfig = {
             apiKey: "AIzaSyDSMoFBtQoJkakJZ6PvGRy8l7KwPv7YwG8",
@@ -29,11 +29,65 @@
         const auth = getAuth(app); // Инициализируем аутентификацию
         // Теперь переменная 'auth' доступна для использования в других скриптах
         // (если они подключены как type="module" или после этого блока)
-
+        const googleProvider = new GoogleAuthProvider();
+        // const db = getFirestore(app); // Если используешь Firestore
         // Чтобы 'auth' был доступен глобально для других скриптов,
         // можно прикрепить его к объекту window
         window.firebaseAuth = auth;
+        // Функция для обновления состояния UI (кнопок входа/выхода)
+        function updateUI(user) {
+            const signInButton = document.getElementById('signInButton');
+            const userCabinetButton = document.getElementById('userCabinetButton');
+            const signOutButton = document.getElementById('signOutButton');
+            const userNameDisplay = document.getElementById('userNameDisplay');
 
+            if (user) {
+                // Пользователь вошел
+                if (signInButton) signInButton.style.display = 'none';
+                if (userCabinetButton) userCabinetButton.style.display = 'inline-block';
+                if (signOutButton) signOutButton.style.display = 'inline-block';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'inline-block';
+                    userNameDisplay.textContent = 'Привет, ${ user.displayName || user.email } !';
+                }
+            } else {
+                // Пользователь вышел
+                if (signInButton) signInButton.style.display = 'inline-block';
+                if (userCabinetButton) userCabinetButton.style.display = 'none';
+                if (signOutButton) signOutButton.style.display = 'none';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'none';
+                    userNameDisplay.textContent = '';
+                }
+            }
+        }
+        // Функция для обновления состояния UI (кнопок входа/выхода)
+        function updateUI(user) {
+            const signInButton = document.getElementById('signInButton');
+            const userCabinetButton = document.getElementById('userCabinetButton');
+            const signOutButton = document.getElementById('signOutButton');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+
+            if (user) {
+                // Пользователь вошел
+                if (signInButton) signInButton.style.display = 'none';
+                if (userCabinetButton) userCabinetButton.style.display = 'inline-block';
+                if (signOutButton) signOutButton.style.display = 'inline-block';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'inline-block';
+                    userNameDisplay.textContent = 'Привет, ${ user.displayName || user.email } !';
+                }
+            } else {
+                // Пользователь вышел
+                if (signInButton) signInButton.style.display = 'inline-block';
+                if (userCabinetButton) userCabinetButton.style.display = 'none';
+                if (signOutButton) signOutButton.style.display = 'none';
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'none';
+                    userNameDisplay.textContent = '';
+                }
+            }
+        }
     </script>
 
     <style>
@@ -398,6 +452,13 @@
             <h1>NeuroFrontend</h1>
             <p>Современная веб-разработка с душой</p>
         </div>
+        <button id="signInButton" class="auth-button">Войти через Google</button>
+
+        <button id="userCabinetButton" class="auth-button" style="display: none;">Личный кабинет</button>
+
+        <span id="userNameDisplay" style="display: none; margin-left: 10px; color: #fff;"></span>
+
+        <button id="signOutButton" class="auth-button" style="display: none; margin-left: 10px;">Выйти</button>
     </header>
 
     <div class="nav">
@@ -415,10 +476,10 @@
                 <div class="services-grid">
                     <div class="service-card" title="Proto NeuroVisit - Идеальный сайт-визитка">
                         <div class="service-title">
-                            <span>Proto NeuroVisit</span>
+                            <span>Prosto NeuroVisit</span>
                             <div class="price-tag">
                                 <span class="price">7 000 - 12 000 ₽</span>
-                                <span class="badge badge-new">Новинка</span>
+                                <span class="badge badge-new">Хит</span>
                             </div>
                         </div>
                         <p class="service-description">Идеальный сайт-визитка для специалистов и малого бизнеса. Быстро,
